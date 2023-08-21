@@ -26,5 +26,11 @@ contract Auction {
 
     function finishAuction() public {
         // ...
+        require(msg.sender == seller, "Only the seller can finish");
+        require(!auctionFinished, "Auction is finished");
+        auctionFinished = true;
+        if (latestBidder != address(0)) {
+            payable(seller).transfer(latestBid);
+        }
     }
 }
